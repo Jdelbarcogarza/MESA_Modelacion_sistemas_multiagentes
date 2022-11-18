@@ -3,8 +3,13 @@ from Reto.StreetModel import StreetModel
 
 def modelo_de_reto():
 
-    # 10 autos en el modelo. * Valor NO modificable
+    # construir modelo
     model = StreetModel()
+
+    step_amount = 15
+
+    for i in range(step_amount):
+        model.step()
 
     print('num of ag', model.num_agents)
 
