@@ -7,14 +7,14 @@ from Reto.TrafficLightAgent import TrafficLightAgent
 
 class StreetModel(mesa.Model):
 
-    def __init__(self, number_of_agents, height, width):
+    def __init__(self):
 
-        self.num_agents = number_of_agents + 2  # se suman 2 por los dos semaforos en el espacio
-        self.grid = mesa.space.SingleGrid(height, width, True)
+        self.num_agents = 12  # existen 12 agentes en el modelo
+        self.grid = mesa.space.SingleGrid(9, 9, True)
         self.schedule = mesa.time.BaseScheduler(self)
 
         # Matriz para representar el espacio
-        self.space_matrix = [[0 for _ in range(height)] for _ in range(width)]
+        self.space_matrix = [[0 for _ in range(9)] for _ in range(9)]
 
         # ------------ insertamos semáforos -------------
 
@@ -45,8 +45,8 @@ class StreetModel(mesa.Model):
 
         self.space_matrix[pos_x][pos_y] = sub_street_traffic_light.name_id
 
-        # crear agentes y asignarlos al modelo
-        for i in range(number_of_agents):
+        # crear agentes y asignarlos al modelo (hay 10 autos en el modelo)
+        for i in range(10):
             a = CarAgent(i, self)
 
             # se carga agente al modelo
