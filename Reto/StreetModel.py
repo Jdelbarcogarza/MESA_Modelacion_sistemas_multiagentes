@@ -45,43 +45,29 @@ class StreetModel(mesa.Model):
 
         self.space_matrix[pos_x][pos_y] = sub_street_traffic_light.name_id
 
+        # coordenadas para los carros
+        agent_coordinates = {
+            1: (0, 0), 2: (0, 3), 3: (0, 5), 4: (1, 3),
+            5: (2, 4), 6: (1, 1), 7: (3, 4), 8: (1, 0),
+            9: (5, 4), 10: (1, 6)
+        }
+
         # crear agentes y asignarlos al modelo (hay 10 autos en el modelo)
-        for i in range(10):
-            a = CarAgent(i, self)
+        for agent_id in agent_coordinates:
+
+            # se construye agente
+            a = CarAgent(agent_id, self)
 
             # se carga agente al modelo
             self.schedule.add(a)
 
-        # carros en trafico continuo
-        self.grid.place_agent(CarAgent(1, self), (0, 0))
-        self.space_matrix[0][0] = 'C'
+            # se coloca en el espacio del mesa
+            self.grid.place_agent(a, agent_coordinates[agent_id])
 
-        self.grid.place_agent(CarAgent(2, self), (0, 3))
-        self.space_matrix[0][3] = 'C'
+            # se coloca en matriz local de espacio
+            x, y = agent_coordinates[agent_id]
 
-        self.grid.place_agent(CarAgent(3, self), (0, 5))
-        self.space_matrix[0][5] = 'C'
-
-        self.grid.place_agent(CarAgent(4, self), (1, 3))  # main_street car
-        self.space_matrix[1][3] = 'C'
-
-        self.grid.place_agent(CarAgent(5, self), (2, 4))  # sub_street car
-        self.space_matrix[2][4] = 'C'
-
-        self.grid.place_agent(CarAgent(6, self), (1, 1))  # main
-        self.space_matrix[1][1] = 'C'
-
-        self.grid.place_agent(CarAgent(8, self), (3, 4))  # sub
-        self.space_matrix[3][4] = 'C'
-
-        self.grid.place_agent(CarAgent(8, self), (1, 0))  # main
-        self.space_matrix[1][0] = 'C'
-
-        self.grid.place_agent(CarAgent(7, self), (5, 4))  # sub
-        self.space_matrix[5][4] = 'C'
-
-        self.grid.place_agent(CarAgent(7, self), (1, 6))  # main
-        self.space_matrix[1][6] = 'C'
+            self.space_matrix[x][y] = 'C'
 
         # Agregar zona muerta
         for row in range(len(self.space_matrix)):
@@ -94,4 +80,4 @@ class StreetModel(mesa.Model):
             print(row)
 
     def step(self):
-        pass
+        self.schedule.step()
