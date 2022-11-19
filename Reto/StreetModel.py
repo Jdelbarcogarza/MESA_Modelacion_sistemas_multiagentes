@@ -16,6 +16,9 @@ class StreetModel(mesa.Model):
         # Matriz para representar el espacio
         self.space_matrix = [[0 for _ in range(9)] for _ in range(9)]
 
+        # variable de control para ver en que paso va el modelo.
+        self.step_counter = 0
+
         # ------------ insertamos semáforos -------------
 
         # CALLE PRINCIPAL. Se construye agente
@@ -69,15 +72,27 @@ class StreetModel(mesa.Model):
 
             self.space_matrix[x][y] = 'C'
 
-        # Agregar zona muerta
+        # Agregar zona muerta y calle
         for row in range(len(self.space_matrix)):
             for col in range(len(self.space_matrix)):
-                if self.space_matrix[row][col] == 0:
+                # agregar zona muerta. Para los dos lados de la calle
+                if (row > 1 and col <= 3) and self.space_matrix[row][col] != 'T' or (row > 1 and col >= 5) and self.space_matrix[row][col] != 'T':
                     self.space_matrix[row][col] = 'x'
+                elif (col == 4 or row <= 1) and self.space_matrix[row][col] == 0:
+                    self.space_matrix[row][col] = '_'
 
+
+
+    def print_space_matrix(self):
         # imprimir matriz
         for row in self.space_matrix:
             print(row)
 
     def step(self):
+
+        print('iteracion: ', self.step_counter)
+        self.print_space_matrix()
         self.schedule.step()
+
+        # al final aumentar la iteracion en la que estamos
+        self.step_counter = self.step_counter + 1
