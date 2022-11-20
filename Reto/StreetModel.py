@@ -22,7 +22,7 @@ class StreetModel(mesa.Model):
         # ------------ insertamos semáforos -------------
 
         # CALLE PRINCIPAL. Se construye agente
-        main_street_traffic_light = TrafficLightAgent(20, self)
+        main_street_traffic_light = TrafficLightAgent('Main St.', self)
 
         # se agrega agente en el grid
         self.grid.place_agent(main_street_traffic_light, (2, 3))
@@ -35,7 +35,7 @@ class StreetModel(mesa.Model):
         self.space_matrix[pos_x][pos_y] = main_street_traffic_light.name_id
 
         # CALLE SECUNDARIA. Se construye agente
-        sub_street_traffic_light = TrafficLightAgent(30, self)
+        sub_street_traffic_light = TrafficLightAgent('Sub St.', self)
 
         # se agrega agente de semaforo SECUNDARIO al modelo
         self.schedule.add(sub_street_traffic_light)
