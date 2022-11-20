@@ -16,3 +16,7 @@ class TrafficLightAgent(mesa.Agent):
 
     def change_light(self):
         self.is_green = not self.is_green
+
+    def step(self):
+
+        print('semaforo en',self.unique_id, 'es:', self.is_green)
