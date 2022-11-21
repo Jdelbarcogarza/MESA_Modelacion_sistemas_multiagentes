@@ -8,6 +8,17 @@ class CarAgent(mesa.Agent):
         # heredar todos los métodos y tributos de la clase pade.
         super().__init__(unique_id, model)
 
+        self.sub_st_car = False
+
+        # verificar si no es un carro que esta Sub st. Si sí lo está, entonces darle un atributo especial
+        # para hacer que reaparezca en Sub st. una vez termine su ruta por Main st.
+        '''
+        row, col = self.pos
+        
+        if row >= 2 and col == 4:
+            self.sub_st_car = True
+        '''
+
     def move(self):
 
         # coordenadas actuales del agente
@@ -17,15 +28,7 @@ class CarAgent(mesa.Agent):
         # mover los agentes de flujo continuo en carril 0
         if row == 0:
 
-            # poner simbolo de calle
-            self.model.space_matrix[row][col] = '_'
-
-            # mover agente 1 casilla a la derecha en grid de modelo
-            self.model.grid.move_agent(self, (0, self.pos[1] + 1))
-
-            row, col = self.pos
-            # colocar simbolo de Carro en matriz impresa
-            self.model.space_matrix[row][col] = 'C'
+            self.update_output_matrix(row, col)
 
         # agentes de carril 1
         elif row == 1:
@@ -45,15 +48,7 @@ class CarAgent(mesa.Agent):
                 # Si casilla esta libre, mover al agente
                 if type(self.model.grid[surroundings[3]]) != CarAgent:
 
-                    # modificar matriz impresa
-                    self.model.space_matrix[row][col] = '_'
-
-                    # mover agente
-                    self.model.grid.move_agent(self, (1, col + 1))
-
-                    row, col = self.pos
-                    # colocar simbolo de Carro en matriz impresa
-                    self.model.space_matrix[row][col] = 'C'
+                    self.update_output_matrix(row, col)
 
                 # si hay un carro parado adelante, no nos podremos mover
                 elif type(self.model.grid[surroundings[3]]) == CarAgent:
@@ -71,15 +66,7 @@ class CarAgent(mesa.Agent):
                 # si el semaforo main st. esta en verde, avanzan los carros
                 if self.model.grid[2][3].is_green:
 
-                    # modificar matriz impresa
-                    self.model.space_matrix[row][col] = '_'
-
-                    # mover agente
-                    self.model.grid.move_agent(self, (1, col + 1))
-
-                    row, col = self.pos
-                    # colocar simbolo de Carro en matriz impresa
-                    self.model.space_matrix[row][col] = 'C'
+                    self.update_output_matrix(row, col)
 
                     # si el semaforo esta en rojo
                 else:
@@ -88,16 +75,22 @@ class CarAgent(mesa.Agent):
             # los autos se mueven normal hacia la derecha
             else:
 
-                # modificar matriz impresa
-                self.model.space_matrix[row][col] = '_'
+                self.update_output_matrix(row, col)
 
-                # mover agente
-                self.model.grid.move_agent(self, (1, col + 1))
+    # el parametro de 'row' indica por qué fila debe moverse el carro.
+    # los parametros provienen de la funcion move().
+    # esto es una helper function para simplificar codigo
+    def update_output_matrix(self, row, col):
 
-                row, col = self.pos
-                # colocar simbolo de Carro en matriz impresa
-                self.model.space_matrix[row][col] = 'C'
+        # modificar matriz impresa
+        self.model.space_matrix[row][col] = '_'
 
+        # mover agente
+        self.model.grid.move_agent(self, (row, col + 1))
+
+        row, col = self.pos
+        # colocar simbolo de Carro en matriz impresa
+        self.model.space_matrix[row][col] = 'C'
 
     def get_agent_pos(self):
 
