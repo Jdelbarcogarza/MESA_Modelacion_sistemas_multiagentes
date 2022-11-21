@@ -98,12 +98,15 @@ class StreetModel(mesa.Model):
 
         print('iteracion: ', self.step_counter + 1)
         self.print_space_matrix()
-        self.schedule.step()
 
         # cada 3 steps cambiar estado de semaforos
         if self.step_counter % 3 == 0:
             self.grid[2][3].change_light()
             self.grid[2][5].change_light()
+
+        self.schedule.step()
+
+        print('\n-------------------------------------------\n')
 
         # al final aumentar la iteracion en la que estamos
         self.step_counter = self.step_counter + 1
