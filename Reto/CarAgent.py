@@ -39,8 +39,8 @@ class CarAgent(mesa.Agent):
 
             print(surroundings)
 
-            # CASO LIMITE EN ULTIMA COLUMNA 8
-            if col == 8:
+            # CASO LIMITE EN ULTIMA COLUMNA 8 o EN EL INICIO COLUMNA 0
+            if col == 8 or col == 0:
 
                 # Si casilla esta libre, mover al agente
                 if type(self.model.grid[surroundings[3]]) != CarAgent:
@@ -60,6 +60,10 @@ class CarAgent(mesa.Agent):
                     print('no me muevo. Tengo coche adelante PARADO. Soy:', self.unique_id, self.pos)
 
                     pass
+
+            # checar si tienes un carro enfrente en medio de la matriz
+            elif type(self.model.grid[surroundings[4]]) == CarAgent:
+                print('carro parado enfrente. No me muevo', self.unique_id, self.pos)
 
             # checar si agente esta donde debe pararse con el semaforo de main street
             elif self.pos == (1, 3):
