@@ -32,7 +32,7 @@ class StreetModel(mesa.Model):
         self.schedule.add(main_street_traffic_light)
 
         # MODIFICAR SEMAFORO DE MAIN ST. (Cambiar a rojo)
-        #main_street_traffic_light.change_light()
+        main_street_traffic_light.change_light()
 
         # se agrega en nuestra matriz
         self.space_matrix[pos_x][pos_y] = main_street_traffic_light.name_id
@@ -43,8 +43,8 @@ class StreetModel(mesa.Model):
         # se agrega agente de semaforo SECUNDARIO al modelo
         self.schedule.add(sub_street_traffic_light)
 
-        # poner este semaforo en rojo
-        sub_street_traffic_light.change_light()
+        # MODIFICAR SEMAFORO DE SUB ST. (Cambiar a rojo)
+        # sub_street_traffic_light.change_light()
 
         self.grid.place_agent(sub_street_traffic_light, (2, 5))
         pos_x, pos_y = sub_street_traffic_light.get_position()
@@ -85,10 +85,9 @@ class StreetModel(mesa.Model):
                 # agregar zona muerta. Para los dos lados de la calle
                 if (row > 1 and col <= 3) and self.space_matrix[row][col] != 'T' or (row > 1 and col >= 5) and self.space_matrix[row][col] != 'T':
                     self.space_matrix[row][col] = 'x'
+                # pavimentar calles
                 elif (col == 4 or row <= 1) and self.space_matrix[row][col] == 0:
                     self.space_matrix[row][col] = '_'
-
-
 
     def print_space_matrix(self):
         # imprimir matriz
@@ -97,9 +96,14 @@ class StreetModel(mesa.Model):
 
     def step(self):
 
-        print('iteracion: ', self.step_counter)
+        print('iteracion: ', self.step_counter + 1)
         self.print_space_matrix()
         self.schedule.step()
+
+        # cada 3 steps cambiar estado de semaforos
+        if self.step_counter % 3 == 0:
+            self.grid[2][3].change_light()
+            self.grid[2][5].change_light()
 
         # al final aumentar la iteracion en la que estamos
         self.step_counter = self.step_counter + 1
