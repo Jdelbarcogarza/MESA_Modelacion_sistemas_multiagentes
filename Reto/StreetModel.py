@@ -64,6 +64,7 @@ class StreetModel(mesa.Model):
             # se construye agente
             a = CarAgent(agent_id, self)
 
+
             # se carga agente al modelo
             self.schedule.add(a)
 
@@ -74,6 +75,9 @@ class StreetModel(mesa.Model):
             x, y = agent_coordinates[agent_id]
 
             self.space_matrix[x][y] = 'C'
+
+            # identificar si es un auto originario de Main st. o de Sub st.
+            a.define_agent_street_status()
 
         # Agregar zona muerta y calle
         for row in range(len(self.space_matrix)):
