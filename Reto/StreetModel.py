@@ -31,6 +31,9 @@ class StreetModel(mesa.Model):
         # se agrega agente de semaforo PRINCIPAL al modelo
         self.schedule.add(main_street_traffic_light)
 
+        # MODIFICAR SEMAFORO DE MAIN ST. (Cambiar a rojo)
+        #main_street_traffic_light.change_light()
+
         # se agrega en nuestra matriz
         self.space_matrix[pos_x][pos_y] = main_street_traffic_light.name_id
 
