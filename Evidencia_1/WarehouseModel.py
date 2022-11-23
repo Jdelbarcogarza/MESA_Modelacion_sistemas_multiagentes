@@ -1,5 +1,5 @@
 import mesa
-from agent import BoxAgent
+from Evidencia_1.BoxRobotAgent import BoxAgent
 
 
 class BoxModel(mesa.Model):
