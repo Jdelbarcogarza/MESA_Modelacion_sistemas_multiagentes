@@ -60,10 +60,8 @@ class StreetModel(mesa.Model):
 
         # crear agentes y asignarlos al modelo (hay 10 autos en el modelo)
         for agent_id in agent_coordinates:
-
             # se construye agente
             a = CarAgent(agent_id, self)
-
 
             # se carga agente al modelo
             self.schedule.add(a)
@@ -83,7 +81,8 @@ class StreetModel(mesa.Model):
         for row in range(len(self.space_matrix)):
             for col in range(len(self.space_matrix)):
                 # agregar zona muerta. Para los dos lados de la calle
-                if (row > 1 and col <= 3) and self.space_matrix[row][col] != 'T' or (row > 1 and col >= 5) and self.space_matrix[row][col] != 'T':
+                if (row > 1 and col <= 3) and self.space_matrix[row][col] != 'T' or (row > 1 and col >= 5) and \
+                        self.space_matrix[row][col] != 'T':
                     self.space_matrix[row][col] = 'x'
                 # pavimentar calles
                 elif (col == 4 or row <= 1) and self.space_matrix[row][col] == 0:
@@ -93,6 +92,18 @@ class StreetModel(mesa.Model):
         # imprimir matriz
         for row in self.space_matrix:
             print(row)
+
+    # obtener las coordenadas actuales de todos los agentes en el espacio
+    def get_agent_positions(self):
+
+        agent_positions = []
+
+        for row in range(9):
+            for col in range(9):
+                if type(self.grid[row][col]) == CarAgent or type(self.grid[row][col]) == TrafficLightAgent:
+                    agent_positions.append((row, col))
+
+        return agent_positions
 
     def step(self):
 
@@ -104,9 +115,13 @@ class StreetModel(mesa.Model):
             self.grid[2][3].change_light()
             self.grid[2][5].change_light()
 
+        print(self.get_agent_positions())
+
         self.schedule.step()
+
 
         print('\n-------------------------------------------\n')
 
         # al final aumentar la iteracion en la que estamos
         self.step_counter = self.step_counter + 1
+

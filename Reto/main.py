@@ -13,3 +13,4 @@ def modelo_de_reto():
 
     print('num of ag', model.num_agents)
 
+# en cada GET del cliente, debo correr un step
