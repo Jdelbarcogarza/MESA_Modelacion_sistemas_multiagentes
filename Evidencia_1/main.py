@@ -5,10 +5,12 @@ import numpy as np
 
 def modelo_cajas():
 
-    model = BoxModel(50, 10, 10)
+    model = BoxModel(5, 10, 10)
     for i in range(20):
         model.step()
 
+    '''
+    # visualización
     agent_counts = np.zeros((model.grid.width, model.grid.height))
     for cell in model.grid.coord_iter():
         cell_content, x, y = cell
@@ -17,3 +19,4 @@ def modelo_cajas():
     plt.imshow(agent_counts, interpolation="nearest")
     plt.colorbar()
     plt.show()
+    '''
