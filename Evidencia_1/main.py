@@ -5,7 +5,8 @@ import numpy as np
 
 def modelo_cajas():
 
-    model = BoxModel(5, 10, 10)
+    # parámetros: robots, cajas a recoger, anchura de espacio, altura de espacio
+    model = BoxModel(5, 10, 10, 10)
     for i in range(20):
         model.step()
 
