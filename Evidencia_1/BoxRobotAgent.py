@@ -22,7 +22,7 @@ class BoxAgent(mesa.Agent):
         )
 
         new_pos = self.random.choice(possible_steps)
-        self.model.grid.move_agent(self,new_pos)
+        self.model.grid.move_agent(self, new_pos)
 
     def giveBox(self):
         freind = self.model.grid.get_cell_list_contents([self.pos])
