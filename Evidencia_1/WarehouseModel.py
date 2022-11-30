@@ -49,6 +49,8 @@ class BoxModel(mesa.Model):
 
         self.print_space_matrix()
 
+            
+
 
     def step(self):
         self.schedule.step()
