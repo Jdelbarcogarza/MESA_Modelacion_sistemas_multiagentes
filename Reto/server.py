@@ -46,7 +46,7 @@ class Server(BaseHTTPRequestHandler):
 
         self._set_response()
 
-        resp = "{\"data\":" + positionsToJSON(positions) + "}"
+        resp = "{" + positionsToJSON(positions) + "}"
 
         self.wfile.write(resp.encode('utf-8'))
 
