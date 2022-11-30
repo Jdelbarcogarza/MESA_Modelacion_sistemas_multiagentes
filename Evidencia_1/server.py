@@ -1,5 +1,5 @@
 from WarehouseModel import cleaningModel
-from BoxRobotAgent import cleaningAgent
+from RobotAgent import cleaningAgent
 from mesa.visualization.modules import CanvasGrid
 from mesa.visualization.ModularVisualization import ModularServer
 from mesa.visualization.UserParam import UserSettableParameter

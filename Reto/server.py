@@ -38,7 +38,7 @@ class Server(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-        logging.info("GET request \nPath: %s headers%:\n%s\n", str(self.path), str(self.headers))
+        logging.info("GET request, \nPath: %s\nHeaders:\n%s\n", str(self.path), str(self.headers))
         self._set_response()
         self.wfile.write("GET request for {}".format(self.path).encode('utf-8'))
 
@@ -47,7 +47,7 @@ class Server(BaseHTTPRequestHandler):
         post_data = json.loads(self.rfile.read(content_length))
 
         # esto es solo para logging
-        logging.info("POST request, \nPath: %s\nHeaders:\n%s\n\nBody:\n%s\n", str(self.path), str(self.headers),
+        logging.info("POST request, \nPath: %s \nHeaders:\n%s \n\nBody:\n%s \n", str(self.path), str(self.headers),
                      json.dumps(post_data))
 
         positions = update_positions()
