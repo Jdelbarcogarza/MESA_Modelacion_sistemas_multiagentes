@@ -1,18 +1,23 @@
 import mesa
 from Evidencia_1.RobotAgent import RobotAgent
 from Evidencia_1.BoxAgent import BoxAgent
+import random
 
 
-class BoxModel(mesa.Model):
+class WharehouseModel(mesa.Model):
 
-    def __init__(self, N, num_boxes, width, height):
+    def __init__(self, N, num_boxes, rows, cols):
         self.num_agents = N + num_boxes
-        self.grid = mesa.space.MultiGrid(width, height, True)
+        self.grid = mesa.space.MultiGrid(rows, cols, True)
         self.schedule = mesa.time.RandomActivation(self)
+        self.width = cols
+        self.height = rows
 
         # Matriz para representar el espacio
-        self.space_matrix = [['_' for _ in range(width)] for _ in range(height)]
+        self.space_matrix = [['_' for _ in range(rows)] for _ in range(cols)]
 
+        # arreglo que guarda las coordenadas de todas las cajas
+        self.box_positions = []
 
         # Crear agentes robot
         for i in range(N):
@@ -20,13 +25,16 @@ class BoxModel(mesa.Model):
             self.schedule.add(a)
 
             # colocar agentes de manera aleatoria en el grid.
-            x = self.random.randrange(1, self.grid.width - 1)
-            y = self.random.randrange(self.grid.height)
-            self.grid.place_agent(a, (x, y))
+            row = random.randint(0, self.width)
+
+            # evitar que salga en la primera y ultima columna un robot
+            col = random.randint(1, cols - 1)
 
             # colocar en matriz de espacio agentes
-            self.space_matrix[x][y] = 'R'
+            self.grid.place_agent(a, (col, row))
+            self.space_matrix[row][col] = 'R'
 
+        # SETUP DE CAJAS
         for i in range(N, N + num_boxes):
             a = BoxAgent(i, self)
             self.schedule.add(a)
@@ -43,11 +51,14 @@ class BoxModel(mesa.Model):
             # se coloca el agente en una celda vacía
             self.grid.place_agent(a, (x, y))
 
+            # agregar coordenadas arreglo de posiciones de cajas
+            self.box_positions.append(tuple((x, y)))
+
             self.space_matrix[x][y] = 'B'
 
-        # crear agentes de caja
 
         self.print_space_matrix()
+        print(self.box_positions)
 
 
     def step(self):
