@@ -1,7 +1,10 @@
 import mesa
 
-class BoxAgent(mesa.Agent):
+class box(mesa.Agent):
 
     def __init__(self, unique_id, model):
         super().__init__(unique_id, model)
-        self.isTaken = False
+
+
+    def get_position(self):
+        return self.pos
