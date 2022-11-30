@@ -38,9 +38,17 @@ class Server(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-        logging.info("GET request, \nPath: %s\nHeaders:\n%s\n", str(self.path), str(self.headers))
+
+        # esto es solo para logging
+        logging.info("GET request, \nPath: %s \nHeaders:\n%s \n", str(self.path), str(self.headers))
+
+        positions = update_positions()
+
         self._set_response()
-        self.wfile.write("GET request for {}".format(self.path).encode('utf-8'))
+
+        resp = "{\"data\":" + positionsToJSON(positions) + "}"
+
+        self.wfile.write(resp.encode('utf-8'))
 
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
