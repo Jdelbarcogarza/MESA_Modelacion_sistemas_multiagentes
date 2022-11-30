@@ -100,7 +100,7 @@ class StreetModel(mesa.Model):
 
         for row in range(9):
             for col in range(9):
-                if type(self.grid[row][col]) == CarAgent or type(self.grid[row][col]) == TrafficLightAgent:
+                if type(self.grid[row][col]) == CarAgent and self.grid[row][col].unique_id > 3:
                     agent_positions.append((row, col))
 
         return agent_positions
