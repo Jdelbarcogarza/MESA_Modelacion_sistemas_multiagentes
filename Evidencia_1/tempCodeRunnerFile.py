@@ -1,1 +1,1 @@
-from BoxRobotAgent import cleaningAgent
+from RobotAgent import cleaningAgent
