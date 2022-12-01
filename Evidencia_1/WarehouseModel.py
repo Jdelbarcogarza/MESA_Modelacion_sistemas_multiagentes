@@ -24,12 +24,14 @@ class WharehouseModel(mesa.Model):
             a = RobotAgent(i, self)
             self.schedule.add(a)
 
+            # NOTA: randint incluye los limites
             # colocar agentes de manera aleatoria en el grid.
-            row = random.randint(0, self.width)
+            row = random.randint(0, self.width - 1)  # excluimos la opción de index 10
 
             # evitar que salga en la primera y ultima columna un robot
-            col = random.randint(1, cols - 1)
+            col = random.randint(1, self.height - 2)  # genera numero de 1 a 8
 
+            print('limits', row, col)
             # colocar en matriz de espacio agentes
             self.grid.place_agent(a, (col, row))
             self.space_matrix[row][col] = 'R'
