@@ -22,8 +22,9 @@ def positionsToJSON(ps):
     posDICT = []
     for p in ps:
         pos = {
-            "x": p[0],
-            "y": p[1]
+            "id": p[0],
+            "x": p[1],
+            "y": p[2]
         }
         posDICT.append(pos)
 
@@ -44,9 +45,11 @@ class Server(BaseHTTPRequestHandler):
 
         positions = update_positions()
 
+        print('estas son', positions)
+
         self._set_response()
 
-        resp = "{:" + positionsToJSON(positions) + "}"
+        resp = "{" + positionsToJSON(positions) + "}"
 
         # con el arreglo data
         # resp = "{\"data\":" + positionsToJSON(positions) + "}"
