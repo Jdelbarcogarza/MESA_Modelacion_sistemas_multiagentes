@@ -1,4 +1,4 @@
-from Evidencia_1.WarehouseModel import BoxModel
+from Evidencia_1.WarehouseModel import WharehouseModel
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -6,7 +6,7 @@ import numpy as np
 def modelo_cajas():
 
     # parámetros: robots, cajas a recoger, anchura de espacio, altura de espacio
-    model = BoxModel(5, 10, 10, 10)
+    model = WharehouseModel(5, 10, 10, 10)
     for i in range(20):
         model.step()
 
